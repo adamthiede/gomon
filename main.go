@@ -27,9 +27,11 @@ func main() {
 		certThreshold: 14,
 		checkInterval: 1,
 	}
+
 	results := Results{
 		certChecks: map[string]string{},
 		pingChecks: map[string]string{},
 	}
+
 	MonitorLoop(&config, &results)
 }

@@ -20,8 +20,11 @@ func monitorPing(config *Config, results *Results) {
 }
 
 func MonitorLoop(config *Config, results *Results) {
+    for {
+	fmt.Println(time.Now())
 	go monitorPing(config, results)
 	go monitorCerts(config, results)
 
 	time.Sleep(time.Minute * time.Duration(config.checkInterval))
+    }
 }
