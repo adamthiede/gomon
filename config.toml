@@ -1,0 +1,18 @@
+CheckInterval = 5
+CertThreshold = 14
+
+CertChecks= [
+    { name = "adamthiede.com", ports= ["443", "1969"] },
+    { name="alpinelinux.org", ports = ["443"] }
+]
+
+TCPChecks = [
+    {name = "192.168.7.1", ports =  [ "80", "443", "22" ]},
+    {name = "192.168.7.7", ports =  [ "8384", "80", "22" ]},
+    {name = "192.168.7.11", ports = [ "53", "80", "22" ]}
+]
+
+PingChecks = [
+"postmarketos.org",
+"alpinelinux.org"
+]

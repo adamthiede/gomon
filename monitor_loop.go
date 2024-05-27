@@ -6,29 +6,29 @@ import (
 )
 
 func monitorCerts(config *Config, results *Results) {
-	for host, ports := range config.certChecks {
-		for _, port := range ports {
-			check, err := CheckCertificate(host, port, config.certThreshold)
-			fmt.Println("Cert:", host, port, check, err)
+	for _, checks := range config.CertChecks {
+		for _, port := range checks.Ports {
+			check, err := CheckCertificate(checks.Name, port, config.CertThreshold)
+			fmt.Println("Cert:", checks.Name, port, check, err)
 		}
 	}
 }
 
 func monitorPing(config *Config, results *Results) {
-	for _, host := range config.pingChecks {
+	for _, host := range config.PingChecks {
 		check, err := CheckPing(host)
 		fmt.Println("ping:", host, check, err)
 	}
 }
 
 func monitorTcpPort(config *Config, results *Results) {
-	for host, ports := range config.tcpChecks {
-		for _, port := range ports {
-			check, err := CheckTcp(host, port)
+	for _, checks := range config.TCPChecks {
+		for _, port := range checks.Ports {
+			check, err := CheckTcp(checks.Name, port)
 			if err == nil {
-				fmt.Println("TCP:", host, port, check)
+				fmt.Println("TCP:", checks.Name, port, check)
 			} else {
-				fmt.Println("TCP:", host, port, check, err)
+				fmt.Println("TCP:", checks.Name, port, check, err)
 			}
 		}
 	}
@@ -41,6 +41,6 @@ func MonitorLoop(config *Config, results *Results) {
 		go monitorCerts(config, results)
 		go monitorTcpPort(config, results)
 
-		time.Sleep(time.Minute * time.Duration(config.checkInterval))
+		time.Sleep(time.Minute * time.Duration(config.CheckInterval))
 	}
 }
