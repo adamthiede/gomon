@@ -6,9 +6,11 @@ import (
 )
 
 func monitorCerts(config *Config, results *Results) {
-	for host, port := range config.certChecks {
-		check, err := CheckCertificate(host, port, config.certThreshold)
-		fmt.Println("Cert:", host, port, check, err)
+	for host, ports := range config.certChecks {
+		for _, port := range ports {
+			check, err := CheckCertificate(host, port, config.certThreshold)
+			fmt.Println("Cert:", host, port, check, err)
+		}
 	}
 }
 
@@ -19,12 +21,26 @@ func monitorPing(config *Config, results *Results) {
 	}
 }
 
-func MonitorLoop(config *Config, results *Results) {
-    for {
-	fmt.Println(time.Now())
-	go monitorPing(config, results)
-	go monitorCerts(config, results)
+func monitorTcpPort(config *Config, results *Results) {
+	for host, ports := range config.tcpChecks {
+		for _, port := range ports {
+			check, err := CheckTcp(host, port)
+			if err == nil {
+				fmt.Println("TCP:", host, port, check)
+			} else {
+				fmt.Println("TCP:", host, port, check, err)
+			}
+		}
+	}
+}
 
-	time.Sleep(time.Minute * time.Duration(config.checkInterval))
-    }
+func MonitorLoop(config *Config, results *Results) {
+	for {
+		fmt.Println(time.Now())
+		go monitorPing(config, results)
+		go monitorCerts(config, results)
+		go monitorTcpPort(config, results)
+
+		time.Sleep(time.Minute * time.Duration(config.checkInterval))
+	}
 }

@@ -20,20 +20,20 @@ func CheckCertificate(host string, port string, threshold int) (bool, error) {
 
 	conn, err := tls.Dial("tcp", hostToCheck, nil)
 	if err != nil {
-		certError := fmt.Sprintf("TLS not supported: %s:%s", host, defaultPort)
+		certError := fmt.Sprintf("TLS not supported: %s", hostToCheck)
 		return false, errors.New(certError)
 	}
 
 	err = conn.VerifyHostname(host)
 	if err != nil {
-		verityError := fmt.Sprintf("Hostname doesn't match: %s:%s", host, defaultPort)
+		verityError := fmt.Sprintf("Hostname doesn't match: %s", hostToCheck)
 		return false, errors.New(verityError)
 	}
 
 	expiry := conn.ConnectionState().PeerCertificates[0].NotAfter
 
 	if time.Until(expiry) < certExpiryThreshold {
-		timeError := fmt.Sprintf("Cert is about to expire for %s:%s (%s)", host, defaultPort, time.Until(expiry))
+		timeError := fmt.Sprintf("Cert is about to expire for %s (%s)", hostToCheck, time.Until(expiry))
 		return false, errors.New(timeError)
 	}
 
