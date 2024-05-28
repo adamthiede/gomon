@@ -12,6 +12,7 @@ type Config struct {
 	CheckInterval int `toml:"CheckInterval"`
 	CertThreshold int `toml:"CertThreshold"`
 	Port          int `toml:"Port"`
+	CharLimit     int `toml:"CharLimit"`
 	CertChecks    []struct {
 		Name  string   `toml:"name"`
 		Ports []string `toml:"ports"`

@@ -39,6 +39,10 @@ func WebServer(config *Config, results *Results) {
 
 func DataParser(results Results) string {
 	fmt.Println("parsing results to build html.")
+	// Basic construction of page from a bunch of html and the results
+	// struct. I know this isn't great, but it works fine and I like the
+	// way it looks in the end.
+
 	results.mux.Lock()
 	defer results.mux.Unlock()
 
