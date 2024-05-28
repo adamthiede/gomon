@@ -7,6 +7,8 @@ import (
 )
 
 type Config struct {
+	// with help from https://xuri.me/toml-to-go/
+	// I wrote the config, parsed it in that website.
 	CheckInterval int `toml:"CheckInterval"`
 	CertThreshold int `toml:"CertThreshold"`
 	CertChecks    []struct {
@@ -20,20 +22,17 @@ type Config struct {
 	PingChecks []string `toml:"PingChecks"`
 }
 
-func parseConfig(cfg *Config) error {
-	configFileName := "config.toml"
+func parseConfig(cfg *Config, configPath *string) error {
 
-	configData, err := os.ReadFile(configFileName)
+	configData, err := os.ReadFile(*configPath)
 
 	fmt.Println(string(configData))
 
 	if err != nil {
-		fmt.Println("Cannot read config file!")
 		return err
 	}
 	_, err = toml.Decode(string(configData), cfg)
 	if err != nil {
-		fmt.Println("Cannot parse config file.")
 		return err
 	}
 
