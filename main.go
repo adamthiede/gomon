@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"sync"
 )
 
 func main() {
@@ -30,8 +31,9 @@ func main() {
 		CertChecks: map[string]string{},
 		PingChecks: map[string]string{},
 		TcpChecks:  map[string]string{},
+		mux:        &sync.Mutex{},
 	}
 
-	go WebServer(&config)
+	go WebServer(&config, &results)
 	MonitorLoop(&config, &results)
 }
