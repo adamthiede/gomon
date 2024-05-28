@@ -4,6 +4,8 @@ import (
 	"crypto/tls"
 	"errors"
 	"fmt"
+	"github.com/prometheus-community/pro-bing"
+	"net"
 	"time"
 )
 
@@ -35,6 +37,40 @@ func CheckCertificate(host string, port string, threshold int) (bool, error) {
 	if time.Until(expiry) < certExpiryThreshold {
 		timeError := fmt.Sprintf("Cert is about to expire for %s (%s)", hostToCheck, time.Until(expiry))
 		return false, errors.New(timeError)
+	}
+
+	conn.Close()
+
+	return true, nil
+}
+
+func CheckPing(host string) (bool, error) {
+	pinger, err := probing.NewPinger(host)
+	if err != nil {
+		return false, errors.New("could not create pinger")
+	}
+	pinger.Count = 2
+	err = pinger.Run() // Blocks until finished.
+	if err != nil {
+		return false, errors.New("ping failed.")
+	}
+	return true, nil
+}
+
+func CheckTcp(host string, port string) (bool, error) {
+	// these values should be configurable
+	defaultPort := "22"
+
+	if port == "" {
+		port = defaultPort
+	}
+
+	hostToCheck := host + ":" + port
+
+	conn, err := net.Dial("tcp", hostToCheck)
+	if err != nil {
+		dialError := fmt.Sprintf("Could not connect to port: %s:%s", host, port)
+		return false, errors.New(dialError)
 	}
 
 	conn.Close()
