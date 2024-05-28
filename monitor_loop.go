@@ -41,12 +41,12 @@ func monitorTcpPort(config *Config, results *Results) {
 	for _, checks := range config.TCPChecks {
 		for _, port := range checks.Ports {
 			check, err := CheckTcp(checks.Name, port)
-			checkName := fmt.Sprintf("%s %v", checks.Name, port)
+			checkName := checks.Name + ":" + port
 			if err == nil {
-				fmt.Println("TCP:", checks.Name, port, check)
+				fmt.Println("TCP:", checkName, check)
 				results.TcpChecks[checkName] += "+"
 			} else {
-				fmt.Println("TCP:", checks.Name, port, check, err)
+				fmt.Println("TCP:", checkName, check, err)
 				results.TcpChecks[checkName] += "-"
 			}
 		}
@@ -63,4 +63,3 @@ func MonitorLoop(config *Config, results *Results) {
 		time.Sleep(time.Minute * time.Duration(config.CheckInterval))
 	}
 }
-

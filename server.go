@@ -59,9 +59,7 @@ func DataParser(results Results) string {
 	htmlCerts += "</p>"
 
 	for k, v := range results.TcpChecks {
-		for _, z := range v {
-			htmlTcp += fmt.Sprintf("<p>%s: %s</p>\n", k, string(z))
-		}
+		htmlTcp += fmt.Sprintf("<p>%s: %s</p>\n", k, v)
 	}
 	htmlTcp += "</p>"
 
