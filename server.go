@@ -15,11 +15,15 @@ type Results struct {
 }
 
 func ServeResults(config *Config, results *Results) {
-	fmt.Println("Serving results.")
+
+	port := ":1314"
+	if config.Port != 0 {
+		port = ":" + fmt.Sprint(config.Port)
+	}
 
 	http.HandleFunc("/", getRoot)
-	err := http.ListenAndServe(":3333", nil)
 
+	err := http.ListenAndServe(port, nil)
 	if err != nil {
 		fmt.Printf("error serving on port: %s\n", err)
 	}
@@ -31,6 +35,10 @@ func ServeResults(config *Config, results *Results) {
 }
 
 func getRoot(w http.ResponseWriter, r *http.Request) {
-	fmt.Printf("got / request\n")
-	io.WriteString(w, "This is my website!\n")
+	htmlHead := "<html><meta http-equiv='refresh' content='600'><meta name='color-scheme' content='dark light'><style>html { font-family : monospace }</style><title>gomon</title><body>"
+	htmlFoot := "</body></html>"
+
+	htmlData := htmlHead + "<h1>Hello, world!</h1>" + htmlFoot
+
+	io.WriteString(w, htmlData)
 }

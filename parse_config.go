@@ -11,6 +11,7 @@ type Config struct {
 	// I wrote the config, parsed it in that website.
 	CheckInterval int `toml:"CheckInterval"`
 	CertThreshold int `toml:"CertThreshold"`
+	Port int `toml:"Port"`
 	CertChecks    []struct {
 		Name  string   `toml:"name"`
 		Ports []string `toml:"ports"`
