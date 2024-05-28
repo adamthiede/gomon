@@ -9,6 +9,8 @@ import (
 	"time"
 )
 
+const timeout = time.Second * 3
+
 func CheckCertificate(host string, port string, threshold int) (bool, error) {
 	// these values should be configurable
 	defaultPort := "443"
@@ -20,7 +22,8 @@ func CheckCertificate(host string, port string, threshold int) (bool, error) {
 
 	hostToCheck := host + ":" + port
 
-	conn, err := tls.Dial("tcp", hostToCheck, nil)
+	d := net.Dialer{Timeout: timeout}
+	conn, err := tls.DialWithDialer(&d, "tcp", hostToCheck, nil)
 	if err != nil {
 		certError := fmt.Sprintf("TLS not supported: %s", hostToCheck)
 		return false, errors.New(certError)
@@ -67,7 +70,8 @@ func CheckTcp(host string, port string) (bool, error) {
 
 	hostToCheck := host + ":" + port
 
-	conn, err := net.Dial("tcp", hostToCheck)
+	d := net.Dialer{Timeout: timeout}
+	conn, err := d.Dial("tcp", hostToCheck)
 	if err != nil {
 		dialError := fmt.Sprintf("Could not connect to port: %s:%s", host, port)
 		return false, errors.New(dialError)

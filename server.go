@@ -33,6 +33,7 @@ func WebServer(config *Config, results *Results) {
 	if err != nil {
 		fmt.Printf("error serving on port: %s\n", err)
 	}
+	fmt.Println("Server exiting!")
 }
 
 func DataParser(results Results) string {
