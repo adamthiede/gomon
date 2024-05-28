@@ -22,10 +22,9 @@ func WebServer(config *Config, results *Results) {
 	if config.Port != 0 {
 		port = ":" + fmt.Sprint(config.Port)
 	}
-	htmlBody := DataParser(results)
 
 	handleFunc := func(w http.ResponseWriter, r *http.Request) {
-		io.WriteString(w, htmlBody)
+		io.WriteString(w, DataParser(*results))
 	}
 
 	http.HandleFunc("/", handleFunc)
@@ -36,7 +35,7 @@ func WebServer(config *Config, results *Results) {
 	}
 }
 
-func DataParser(results *Results) string {
+func DataParser(results Results) string {
 	fmt.Println("parsing results to build html.")
 	results.mux.Lock()
 	defer results.mux.Unlock()

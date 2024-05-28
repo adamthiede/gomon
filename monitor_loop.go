@@ -59,9 +59,8 @@ func MonitorLoop(config *Config, results *Results) {
 		go monitorPing(config, results)
 		go monitorCerts(config, results)
 		go monitorTcpPort(config, results)
+		go DataParser(*results)
 		time.Sleep(time.Minute * time.Duration(config.CheckInterval))
 	}
 }
 
-func truncateResults(results *Results) {
-}
