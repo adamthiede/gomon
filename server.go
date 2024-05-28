@@ -13,6 +13,7 @@ type Results struct {
 	PingChecks map[string]string
 	TcpChecks  map[string]string
 	UdpChecks  map[string]string
+	LastCheck  string
 	mux        *sync.Mutex
 }
 
@@ -48,6 +49,7 @@ func DataParser(results Results) string {
 	<title>gomon</title>
 	<body>`
 	htmlHead += "<p> Time:" + fmt.Sprint(time.Now()) + "</p>"
+	htmlHead += "<p> Last check:" + results.LastCheck + "</p>"
 	htmlFoot := "</body></html>"
 
 	htmlCerts := "<h2>Cert checks:</h2><p>"

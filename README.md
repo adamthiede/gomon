@@ -13,8 +13,9 @@ Mostly I'm trying to replicate a hacky shell script I have written, and instead 
 
 ## Dependencies:
 
-[pro-bing](github.com/prometheus-community/pro-bing) - to ping. Otherwise ICMP requires root access, and I'm not going to just shell out to the `ping` command.
-[toml](github.com/BurntSushi/toml) - to parse toml config file.
+- [pro-bing](github.com/prometheus-community/pro-bing) - to ping. Otherwise ICMP requires root access, and I'm not going to just shell out to the `ping` command.
+    - requires setting sysctl value: `sudo sysctl -w net.ipv4.ping_group_range="0 2147483647"` otherwise weird behavior occurs
+- [toml](github.com/BurntSushi/toml) - to parse toml config file.
 
 
 ## Screenshot

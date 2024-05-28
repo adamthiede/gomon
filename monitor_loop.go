@@ -19,6 +19,7 @@ func monitorCerts(config *Config, results *Results) {
 			}
 		}
 	}
+	results.LastCheck = fmt.Sprintf("%s",time.Now())
 	results.mux.Unlock()
 }
 
@@ -33,6 +34,7 @@ func monitorPing(config *Config, results *Results) {
 			results.PingChecks[host] += "-"
 		}
 	}
+	results.LastCheck = fmt.Sprintf("%s",time.Now())
 	results.mux.Unlock()
 }
 
@@ -51,6 +53,7 @@ func monitorTcpPort(config *Config, results *Results) {
 			}
 		}
 	}
+	results.LastCheck = fmt.Sprintf("%s",time.Now())
 	results.mux.Unlock()
 }
 

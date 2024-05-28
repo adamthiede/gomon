@@ -2,10 +2,10 @@ CheckInterval = 1
 CertThreshold = 14
 Port = 1313
 
-#CertChecks= [
-#    { name = "adamthiede.com", ports= ["443"] },
-#    { name="alpinelinux.org", ports = ["443"] }
-#]
+CertChecks= [
+    { name = "adamthiede.com", ports= ["443"] },
+    { name="asknora.org", ports = ["443"] }
+]
 
 TCPChecks = [
     {name = "192.168.7.1", ports =  [ "80", "443", "22" ]},
@@ -13,6 +13,7 @@ TCPChecks = [
 ]
 
 PingChecks = [
-"postmarketos.org",
-"alpinelinux.org"
+"192.168.7.1",
+"192.168.7.10",
+"192.168.7.11"
 ]

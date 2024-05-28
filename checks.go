@@ -52,7 +52,7 @@ func CheckPing(host string) (bool, error) {
 	if err != nil {
 		return false, errors.New("could not create pinger")
 	}
-	pinger.Count = 2
+	pinger.Count = 3
 	err = pinger.Run() // Blocks until finished.
 	if err != nil {
 		return false, errors.New("ping failed.")
