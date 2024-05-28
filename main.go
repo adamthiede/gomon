@@ -31,6 +31,6 @@ func main() {
 		PingChecks: map[string]string{},
 	}
 
-	go ServeResults(&config, &results)
+	go WebServer(&config)
 	MonitorLoop(&config, &results)
 }
