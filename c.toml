@@ -1,7 +1,7 @@
 CheckInterval = 1
 CertThreshold = 14
 Port = 1313
-CharLimit = 10
+CharLimit = 50
 
 CertChecks= [
     { name = "adamthiede.com", ports= ["443"] },
@@ -18,3 +18,10 @@ PingChecks = [
 "192.168.7.10",
 "192.168.7.11"
 ]
+
+[Email]
+To=""
+From=""
+Server=""
+Port=""
+Password=""

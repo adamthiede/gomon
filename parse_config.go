@@ -13,6 +13,13 @@ type Config struct {
 	CertThreshold int `toml:"CertThreshold"`
 	Port          int `toml:"Port"`
 	CharLimit     int `toml:"CharLimit"`
+	Email struct {
+	    To string `toml:"to"`
+	    From string `toml:"from"`
+	    Server string `toml:"server"`
+	    Port string `toml:"port"`
+	    Password string `toml:"password"`
+	}
 	CertChecks    []struct {
 		Name  string   `toml:"name"`
 		Ports []string `toml:"ports"`

@@ -1,6 +1,7 @@
 CheckInterval = 5
 CertThreshold = 14
 Port = 1313
+CharLimit = 50
 
 CertChecks= [
     { name = "adamthiede.com", ports= ["443", "1969"] },
@@ -17,3 +18,10 @@ PingChecks = [
 "postmarketos.org",
 "alpinelinux.org"
 ]
+
+[Email]
+To=""
+From=""
+Server=""
+Port=""
+Password=""

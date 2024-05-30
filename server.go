@@ -14,6 +14,7 @@ type Results struct {
 	TcpChecks  map[string]string
 	UdpChecks  map[string]string
 	LastCheck  string
+	ErroredItems []string
 	mux        *sync.Mutex
 }
 

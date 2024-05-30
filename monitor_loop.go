@@ -17,6 +17,7 @@ func monitorCerts(config *Config, results *Results) {
 				results.CertChecks[checkName] += "+"
 			} else {
 				results.CertChecks[checkName] += "-"
+				results.ErroredItems = append(results.ErroredItems, checkName)
 			}
 		}
 	}
@@ -33,6 +34,7 @@ func monitorPing(config *Config, results *Results) {
 			results.PingChecks[host] += "+"
 		} else {
 			results.PingChecks[host] += "-"
+			results.ErroredItems = append(results.ErroredItems, host)
 		}
 	}
 	results.LastCheck = fmt.Sprintf("%s", time.Now())
@@ -51,10 +53,30 @@ func monitorTcpPort(config *Config, results *Results) {
 			} else {
 				fmt.Println("TCP:", checkName, check, err)
 				results.TcpChecks[checkName] += "-"
+			results.ErroredItems = append(results.ErroredItems, checkName)
 			}
 		}
 	}
 	results.LastCheck = fmt.Sprintf("%s", time.Now())
+}
+
+func CheckIfSendEmail(config *Config, results *Results) {
+    if config.Email.To == "" {
+	fmt.Println("No email setup.")
+	return
+    }
+    fmt.Printf("Errors: %s\n",results.ErroredItems)
+    if len(results.ErroredItems)>0 {
+	fmt.Printf("Have %v errors, sending email\n",len(results.ErroredItems))
+	alerts:="\n"
+	for _, errItem := range results.ErroredItems {
+	    alerts+=errItem+"\n"
+	}
+	err := SendEmail([]byte(alerts), config.Email.To, config.Email.From, config.Email.Server, config.Email.Port, config.Email.Password)
+	if err!= nil {
+	    fmt.Println(err)
+	}
+    }
 }
 
 func MonitorLoop(config *Config, results *Results) {
@@ -65,6 +87,7 @@ func MonitorLoop(config *Config, results *Results) {
 		truncateGraph(config, *results)
 		go DataParser(*results)
 		time.Sleep(time.Minute * time.Duration(config.CheckInterval))
+		CheckIfSendEmail(config, results)
 	}
 }
 func truncateGraph(config *Config, results Results) {
