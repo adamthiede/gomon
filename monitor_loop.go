@@ -53,7 +53,7 @@ func monitorTcpPort(config *Config, results *Results) {
 			} else {
 				fmt.Println("TCP:", checkName, check, err)
 				results.TcpChecks[checkName] += "-"
-			results.ErroredItems = append(results.ErroredItems, checkName)
+				results.ErroredItems = append(results.ErroredItems, checkName)
 			}
 		}
 	}
@@ -61,22 +61,22 @@ func monitorTcpPort(config *Config, results *Results) {
 }
 
 func CheckIfSendEmail(config *Config, results *Results) {
-    if config.Email.To == "" {
-	fmt.Println("No email setup.")
-	return
-    }
-    fmt.Printf("Errors: %s\n",results.ErroredItems)
-    if len(results.ErroredItems)>0 {
-	fmt.Printf("Have %v errors, sending email\n",len(results.ErroredItems))
-	alerts:="\n"
-	for _, errItem := range results.ErroredItems {
-	    alerts+=errItem+"\n"
+	if config.Email.To == "" {
+		fmt.Println("No email setup.")
+		return
 	}
-	err := SendEmail([]byte(alerts), config.Email.To, config.Email.From, config.Email.Server, config.Email.Port, config.Email.Password)
-	if err!= nil {
-	    fmt.Println(err)
+	fmt.Printf("Errors: %s\n", results.ErroredItems)
+	if len(results.ErroredItems) > 0 {
+		fmt.Printf("Have %v errors, sending email\n", len(results.ErroredItems))
+		alerts := "\n"
+		for _, errItem := range results.ErroredItems {
+			alerts += errItem + "\n"
+		}
+		err := SendEmail([]byte(alerts), config.Email.To, config.Email.From, config.Email.Server, config.Email.Port, config.Email.Password)
+		if err != nil {
+			fmt.Println(err)
+		}
 	}
-    }
 }
 
 func MonitorLoop(config *Config, results *Results) {

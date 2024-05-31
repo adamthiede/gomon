@@ -9,13 +9,13 @@ import (
 )
 
 type Results struct {
-	CertChecks map[string]string
-	PingChecks map[string]string
-	TcpChecks  map[string]string
-	UdpChecks  map[string]string
-	LastCheck  string
+	CertChecks   map[string]string
+	PingChecks   map[string]string
+	TcpChecks    map[string]string
+	UdpChecks    map[string]string
+	LastCheck    string
 	ErroredItems []string
-	mux        *sync.Mutex
+	mux          *sync.Mutex
 }
 
 func WebServer(config *Config, results *Results) {
